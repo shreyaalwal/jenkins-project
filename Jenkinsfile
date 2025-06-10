@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent { label 'new' }
+
+    environment {
+        SCANNER_HOME = tool 'sonar-scanner'
+    }
 
     stages {
         stage('Git Checkout') {
@@ -7,7 +11,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/shreyaalwal/jenkins-project.git'
             }
         }
-
 
         stage('Trivy FS Scan') {
             steps {
@@ -17,18 +20,20 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar') {  
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectKey=flaskdemo \
-                    -Dsonar.projectName=flaskdemo -Dsonar.java.binaries=target '''
-                }    
+                withSonarQubeEnv('SonarQube') {
+                    sh '''${SCANNER_HOME}/bin/sonar-scanner \
+                    -Dsonar.projectKey=flaskdemo \
+                    -Dsonar.projectName=flaskdemo \
+                    -Dsonar.sources=.'''
+                }
             }
         }
-        
+
         stage('Build & Tag Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
-                        sh 'docker build -t devops830/python-app:latest .'
+                        sh 'docker build -t shreya500/python-app:latest .'
                     }
                 }
             }
@@ -36,7 +41,7 @@ pipeline {
 
         stage('Scan Docker Image by Trivy') {
             steps {
-                sh 'trivy image --format table -o image-report.html devops830/python-app:latest'
+                sh 'trivy image --format table -o image-report.html shreya500/python-app:latest'
             }
         }
 
@@ -44,9 +49,16 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'dockerhub', toolName: 'docker') {
-                        sh 'docker push devops830/python-app:latest'
+                        sh 'docker push shreya500/python-app:latest'
                     }
                 }
             }
         }
     }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '*.html', allowEmptyArchive: true
+        }
+    }
+}
