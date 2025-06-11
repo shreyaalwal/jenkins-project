@@ -78,7 +78,7 @@ def portfolio():
                 <div class="contact">
                     <h2>Contact</h2>
                     <p>Email: shreyaalwal@gmail.com</p>
-                    <p>LinkedIn: www.linkedin.com/in/anjalikota10</p>
+                    <p>LinkedIn: www.linkedin.com/in/shreyaalwal</p>
                 </div>
             </div>
             
