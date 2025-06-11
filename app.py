@@ -47,7 +47,7 @@ def portfolio():
         </head>
         <body>
             <div class="header">
-                <h1>Anjali Kota</h1>
+                <h1>Shreya Alwal</h1>
                 <p>DevOps Engineer | Web Developer</p>
             </div>
             
@@ -77,13 +77,13 @@ def portfolio():
                 
                 <div class="contact">
                     <h2>Contact</h2>
-                    <p>Email: anjalikota161@gmail.com</p>
+                    <p>Email: shreyaalwal@gmail.com</p>
                     <p>LinkedIn: www.linkedin.com/in/anjalikota10</p>
                 </div>
             </div>
             
             <div class="footer">
-                <p>&copy; 2024 Anjali Kota</p>
+                <p>&copy; 2024 Shreya Alwal</p>
             </div>
         </body>
     </html>
